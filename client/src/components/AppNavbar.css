@@ -1,0 +1,27 @@
+.AppNavbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: blue;
+  margin: 0;
+}
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.navbar ul {
+  list-style: none;
+  display: flex;
+}
+.navItems li {
+  
+  padding: 0 1em
+
+}
+
+.navItems a {
+  color: white;
+
+}

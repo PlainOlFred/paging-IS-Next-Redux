@@ -1,0 +1,11 @@
+{
+  "name": "pagination_react_redux",
+  "version": "1.0.0",
+  "description": "Passages and problems on infinite scroll functionality using React, Redux, and next.js",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeremy M Jones",
+  "license": "ISC"
+}
