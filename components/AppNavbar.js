@@ -11,7 +11,7 @@ const AppNavbar = () => {
       <a style={linkStyle}>Home</a>
     </Link>
     <Link href="/passages">
-      <a style={linkStyle}>Passages</a>
+      <a style={linkStyle}>Passage</a>
     </Link>
     <Link href="/problems">
       <a style={linkStyle}>Problems</a>
