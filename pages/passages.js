@@ -9,13 +9,17 @@ const Passages = (props) => {
     <div>
       <PageLayout>
         <h1>Passages Page</h1>
-        {props.passages.map(passage => (
+        <ul >
+          {props.passages.map(passage => (
           <li
             key={passage.id}
           >
             {passage.text}
           </li>
         ))}
+
+        </ul>
+        
       </PageLayout>   
     </div>
   )

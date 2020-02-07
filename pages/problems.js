@@ -11,6 +11,7 @@ import fetch from 'isomorphic-unfetch';
 //   )
 // }
 
+// Create a problemSet state is reducer to add problem set base on a filter
 const Problems = (props) => {
   return (
     <div>
