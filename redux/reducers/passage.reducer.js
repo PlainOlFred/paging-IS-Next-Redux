@@ -8,9 +8,10 @@ const initialState= {
 }
 
 export default (state = initialState, action) => {
-  switch(action.types) {
+  switch(action.type) {
 
     case GET_PASSAGES:
+      console.log('i am in the reducer')
       return {
         ...state,
       passages: [...state.passages, action.payload],

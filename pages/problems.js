@@ -35,7 +35,7 @@ Problems.getInitialProps = async () => {
   
   const data = await res.json();
 
-  console.log(data.data)
+  
 
   // console.log(`Data Count: ${data.length}`)
 
