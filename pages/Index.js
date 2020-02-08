@@ -7,28 +7,35 @@ import { bindActionCreators } from 'redux'
 import PageLayout from "../components/PageLayout";
 import Link from 'next/link'
 
+
 // Actions
-import { getPassages, setPassage, incrementPage, resetCurrentPage } from "../redux/actions/passage.actions";
+import { getPassages, setPassage, incrementPage, removePassages } from "../redux/actions/passage.actions";
 
 const passageListStyle = {
-  listStyle: 'none',
-  
-
+  listStyle: 'none'
 }
 const passageLinkStyle = {
-  
   border: '1px soild #DDD'
-
 }
 
 const Index = (props) => {
   const {passages, currentPage,  totalPages,  isScrolling} = props.passage;
-  const {incrementPage, resetCurrentPage} = props
-   
+  const {incrementPage, removePassages} = props
+
+  useEffect(() =>{
+      const {currentPage} = props.passage
+      props.getPassages(currentPage);
+
+      return () => {
+        props.removePassages()
+      }
+
+  },[])
+
 
   useEffect(() => {
     // this action rerenders page
-    props.getPassages(currentPage);
+    
 
     
     const handleScroll = (e) => {
@@ -46,12 +53,12 @@ const Index = (props) => {
     }
 
   //  Addd eventListener
-    window.addEventListener('scroll', handleScroll);
+    // window.addEventListener('scroll', handleScroll);
 
     // Remove eventListener with a return statement here
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
+    // return () => {
+    //   window.removeEventListener('scroll', handleScroll)
+    // }
   }, [currentPage])
 
   
@@ -62,21 +69,27 @@ const Index = (props) => {
       
       {passages.length > 1 ? <ul className="passageLinks" style={passageListStyle}>
         {passages.map(passage => (
+          
           <li key={passage.id} style={passageLinkStyle}>
             <Link href="/passage/[id]" as={`/passage/${passage.id}`}>
                 <a onClick={()=>props.setPassage(passage.id)}><h3>{passage.reference_id}. {passage.title}</h3></a>
             </Link>
+                <blockquote>{passage.subjects.label}</blockquote>
+
           </li>
         ))}
       </ul> : <ul></ul>} 
+      <a>Next page</a>
     </PageLayout>
+
   )
 }
 
 Index.getInitialProps = async ({reduxStore, req }) => {
+  
 
   return {
-   hello: 'Hello World!!',
+   
   }
 }
 
@@ -86,7 +99,8 @@ const mapDispatchToProps = dispatch => {
     getPassages: bindActionCreators(getPassages, dispatch),
     setPassage: bindActionCreators(setPassage, dispatch),
     incrementPage: bindActionCreators(incrementPage, dispatch),
-    resetCurrentPage: bindActionCreators(resetCurrentPage, dispatch)
+    // resetCurrentPage: bindActionCreators(resetCurrentPage, dispatch),
+    removePassages: bindActionCreators(removePassages, dispatch)
     
   }
 }

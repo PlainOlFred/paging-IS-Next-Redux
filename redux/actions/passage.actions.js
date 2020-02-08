@@ -1,4 +1,4 @@
-import {GET_PASSAGES, LOADING_PASSAGES, SET_CURRENT_PASSAGE, INCREMENT_PAGE, RESET_CURRENT_PAGE} from './types';
+import {GET_PASSAGES, LOADING_PASSAGES, SET_CURRENT_PASSAGE, INCREMENT_PAGE, RESET_CURRENT_PAGE, REMOVE_PASSAGES} from './types';
 import fetch from 'isomorphic-unfetch';
 
 
@@ -6,9 +6,10 @@ import fetch from 'isomorphic-unfetch';
 export const getPassages = (page) => async dispatch => {
   // console.log('action hit');
 
-  const res = await fetch(`http://34.216.186.56/api/passages?page=${page}`);
+  const res = await fetch(`http://34.216.186.56/api/passages`);
+  // const res = await fetch(`http://34.216.186.56/api/passages?page=${page}`);
   const data = await res.json();
-  // console.log(data.data.passages)
+ 
 
   return await dispatch({
     type: GET_PASSAGES,
@@ -19,6 +20,12 @@ export const getPassages = (page) => async dispatch => {
 
 }
 
+// @DESC  Remove paseeages
+export const removePassages = () => {
+  return {
+    type: REMOVE_PASSAGES
+  }
+}
 
 // @DESC  Set loading to true
 export  const setPassageLoading = () => {

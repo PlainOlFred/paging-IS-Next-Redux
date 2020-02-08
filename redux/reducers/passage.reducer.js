@@ -1,5 +1,5 @@
 // Actions
-import { GET_PASSAGES, LOADING_PASSAGES, SET_CURRENT_PASSAGE, INCREMENT_PAGE, RESET_CURRENT_PAGE} from '../actions/types'
+import { GET_PASSAGES, LOADING_PASSAGES, SET_CURRENT_PASSAGE, INCREMENT_PAGE, RESET_CURRENT_PAGE, REMOVE_PASSAGES} from '../actions/types'
 
 // Initial State
 const initialState= {
@@ -19,6 +19,12 @@ export default (state = initialState, action) => {
         ...state,
         passages: [...state.passages, ...action.payload.data],
         totalPages: action.payload.totalPages
+      }
+    
+    case REMOVE_PASSAGES:
+      return {
+        ...state,
+        passages: []
       }
     case SET_CURRENT_PASSAGE:
       return {
