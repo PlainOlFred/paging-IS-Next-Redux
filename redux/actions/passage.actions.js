@@ -4,6 +4,7 @@ import fetch from 'isomorphic-unfetch';
 
 //@DESC Get passages from endpoint
 export const getPassages = (page) => async dispatch => {
+  dispatch(setLoading());
   // console.log('action hit');
 
   const res = await fetch(`http://34.216.186.56/api/passages?page=${page}`);
@@ -22,6 +23,7 @@ export const getPassages = (page) => async dispatch => {
 
 // @DESC  Get more pages from API endpoint
 export  const scrollPage = (page)  => async dispatch  => {
+  dispatch(setLoading());
   page +=1;
   const res = await fetch(`http://34.216.186.56/api/passages?page=${page}`);
     // const res = await fetch(`http://34.216.186.56/api/passages?page=${page}`);
@@ -31,6 +33,13 @@ export  const scrollPage = (page)  => async dispatch  => {
     type: SCROLL_PAGE,
     payload: data.data.passages
     })
+}
+
+// @DESC  Set lodading
+export const setLoading = () => {
+  return {
+    type: LOADING_PASSAGES
+  }
 }
 
 // @DESC  Remove paseeages

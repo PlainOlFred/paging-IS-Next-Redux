@@ -9,7 +9,7 @@ import Link from 'next/link'
 
 
 // Actions
-import { getPassages, scrollPage, setPassage, incrementPage, removePassages } from "../redux/actions/passage.actions";
+import { getPassages, scrollPage, setPassage, incrementPage, removePassages, setLoading } from "../redux/actions/passage.actions";
 
 const passageListStyle = {
   listStyle: 'none'
@@ -19,44 +19,33 @@ const passageLinkStyle = {
 }
 
 const Index = (props) => {
-  const {passages, currentPage, totalPages,  isScrolling} = props.passage;
-  const {getPassages, removePassages, scrollPage} = props
+  const {passages, currentPage, totalPages,  isScrolling, isLoading} = props.passage;
+  const {getPassages, removePassages, scrollPage, setLoading} = props
 
   useEffect(() =>{
       const {currentPage} = props.passage
       getPassages(currentPage);
 
+    
       return () => {
         removePassages()
       }
   },[])
 
-
+// Add and Remove EventListener
   useEffect(() => {
-    // this action rerenders page
-  
-    const handleScroll = (e) => {
+    
+      const scrollPageListener = window.addEventListener('scroll', () => {
+        console.log('we scrollong')
+      })
+    
 
-       const lastElm = document.querySelector('ul.passageLinks > li:last-child');
-       const lastLiOffest = lastElm.offsetTop + lastElm.clientHeight 
-       const pageOffset = window.pageYOffset + window.innerHeight
-       let bottomOffset = 20
 
-       if(pageOffset > lastLiOffest - bottomOffset && currentPage <= totalPages ) {
-        // incrementPage();
-        // loadMore(currentPage);
-        console.log('bottom');
-       }
-    }
 
-  //  Addd eventListener
-    // window.addEventListener('scroll', handleScroll);
+    
+  },[])
 
-    // Remove eventListener with a return statement here
-    // return () => {
-    //   window.removeEventListener('scroll', handleScroll)
-    // }
-  }, [])
+
 
   const handleScrollPage = () => {
     scrollPage(currentPage);
@@ -81,6 +70,7 @@ const Index = (props) => {
         ))}
       </ul> : <ul></ul>} 
       <a onClick={handleScrollPage}>Next Page</a>
+     {isLoading ?  <p>Laodaing.....</p> : <></>}
     </PageLayout>
 
   )

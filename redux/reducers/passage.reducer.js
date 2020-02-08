@@ -8,6 +8,7 @@ const initialState= {
   currentPage: 0,
   isScrolling: false,
   currentPassage_id: 0,
+  isLoading: false
 }
 
 export default (state = initialState, action) => {
@@ -18,21 +19,24 @@ export default (state = initialState, action) => {
       return {
         ...state,
         passages: [...action.payload.data],
-        totalPages: action.payload.totalPages
+        totalPages: action.payload.totalPages,
+        isLoading: false
       }
     
     case REMOVE_PASSAGES:
       return {
         ...state,
         passages: [],
-        currentPage: 0
+        currentPage: 0,
+
       }
 
     case SCROLL_PAGE:
       return {
         ...state,
         passages: [...state.passages, ...action.payload],
-        currentPage: state.currentPage < state.totalPages ? state.currentPage + 1 : state.totalPages
+        currentPage: state.currentPage < state.totalPages ? state.currentPage + 1 : state.totalPages,
+        isLoading: false
 
       }
     case SET_CURRENT_PASSAGE:
@@ -52,6 +56,11 @@ export default (state = initialState, action) => {
         currentPage: 0
       }
 
+    case LOADING_PASSAGES:
+      return {
+        ...state,
+        isLoading: true
+      }
 
  
     default:
