@@ -9,7 +9,7 @@ import Link from 'next/link'
 
 
 // Actions
-import { getPassages, setPassage, incrementPage, removePassages } from "../redux/actions/passage.actions";
+import { getPassages, scrollPage, setPassage, incrementPage, removePassages } from "../redux/actions/passage.actions";
 
 const passageListStyle = {
   listStyle: 'none'
@@ -19,25 +19,22 @@ const passageLinkStyle = {
 }
 
 const Index = (props) => {
-  const {passages, currentPage,  totalPages,  isScrolling} = props.passage;
-  const {incrementPage, removePassages} = props
+  const {passages, currentPage, totalPages,  isScrolling} = props.passage;
+  const {getPassages, removePassages, scrollPage} = props
 
   useEffect(() =>{
       const {currentPage} = props.passage
-      props.getPassages(currentPage);
+      getPassages(currentPage);
 
       return () => {
-        props.removePassages()
+        removePassages()
       }
-
   },[])
 
 
   useEffect(() => {
     // this action rerenders page
-    
-
-    
+  
     const handleScroll = (e) => {
 
        const lastElm = document.querySelector('ul.passageLinks > li:last-child');
@@ -46,7 +43,7 @@ const Index = (props) => {
        let bottomOffset = 20
 
        if(pageOffset > lastLiOffest - bottomOffset && currentPage <= totalPages ) {
-        incrementPage();
+        // incrementPage();
         // loadMore(currentPage);
         console.log('bottom');
        }
@@ -59,7 +56,11 @@ const Index = (props) => {
     // return () => {
     //   window.removeEventListener('scroll', handleScroll)
     // }
-  }, [currentPage])
+  }, [])
+
+  const handleScrollPage = () => {
+    scrollPage(currentPage);
+  }
 
   
   return (
@@ -79,7 +80,7 @@ const Index = (props) => {
           </li>
         ))}
       </ul> : <ul></ul>} 
-      <a>Next page</a>
+      <a onClick={handleScrollPage}>Next Page</a>
     </PageLayout>
 
   )
@@ -99,7 +100,7 @@ const mapDispatchToProps = dispatch => {
     getPassages: bindActionCreators(getPassages, dispatch),
     setPassage: bindActionCreators(setPassage, dispatch),
     incrementPage: bindActionCreators(incrementPage, dispatch),
-    // resetCurrentPage: bindActionCreators(resetCurrentPage, dispatch),
+    scrollPage: bindActionCreators(scrollPage, dispatch),
     removePassages: bindActionCreators(removePassages, dispatch)
     
   }

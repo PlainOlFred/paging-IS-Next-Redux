@@ -1,4 +1,4 @@
-import {GET_PASSAGES, LOADING_PASSAGES, SET_CURRENT_PASSAGE, INCREMENT_PAGE, RESET_CURRENT_PAGE, REMOVE_PASSAGES} from './types';
+import {GET_PASSAGES, LOADING_PASSAGES, SET_CURRENT_PASSAGE, INCREMENT_PAGE, RESET_CURRENT_PAGE, SCROLL_PAGE, REMOVE_PASSAGES} from './types';
 import fetch from 'isomorphic-unfetch';
 
 
@@ -6,8 +6,8 @@ import fetch from 'isomorphic-unfetch';
 export const getPassages = (page) => async dispatch => {
   // console.log('action hit');
 
-  const res = await fetch(`http://34.216.186.56/api/passages`);
-  // const res = await fetch(`http://34.216.186.56/api/passages?page=${page}`);
+  const res = await fetch(`http://34.216.186.56/api/passages?page=${page}`);
+    // const res = await fetch(`http://34.216.186.56/api/passages?page=${page}`);
   const data = await res.json();
  
 
@@ -18,6 +18,19 @@ export const getPassages = (page) => async dispatch => {
       totalPages: data.data.pages}
     })
 
+}
+
+// @DESC  Get more pages from API endpoint
+export  const scrollPage = (page)  => async dispatch  => {
+  page +=1;
+  const res = await fetch(`http://34.216.186.56/api/passages?page=${page}`);
+    // const res = await fetch(`http://34.216.186.56/api/passages?page=${page}`);
+  const data = await res.json();
+
+  return await dispatch({
+    type: SCROLL_PAGE,
+    payload: data.data.passages
+    })
 }
 
 // @DESC  Remove paseeages
@@ -57,4 +70,6 @@ export  const resetCurrentPage = () => {
     
   }
 }
+
+
 
