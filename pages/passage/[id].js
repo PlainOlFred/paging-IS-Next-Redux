@@ -11,15 +11,12 @@ const Passage = props => (
       style={{color: 'red'}}
       dangerouslySetInnerHTML={{__html: props.passage.text}}
     ></div>
-    
-
   </PageLayout>
 );
 
 Passage.getInitialProps = async ({reduxStore, query}) => {
-  console.log(query.id)
   const state =reduxStore.getState();
-  console.log(state.passage.currentPassage)
+  
 
   return {
     passage: state.passage.currentPassage
@@ -28,10 +25,12 @@ Passage.getInitialProps = async ({reduxStore, query}) => {
    
 };
 
+
+// No need to use connect with mapSatatoProps with
 // State to Props
 // const mapStateToProps = (state) => ({
 //   passage: state.passage
 // })
 
-// export default connect()(Index);
+// export default connect(mapStateToProps)(Passage);
 export default connect()(Passage);

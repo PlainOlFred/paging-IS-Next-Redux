@@ -22,7 +22,7 @@ const passageLinkStyle = {
 const Index = (props) => {
   const {passages, isLoading} = props.passage;
   const { currentPage, totalPages,  isScrolling} = props.passage;
-  const {getPassages, removePassages, setLoading} = props
+  const {getPassages, removePassages, setPassage} = props
 
   useEffect(() =>{
       const {currentPage} = props.passage
@@ -65,7 +65,7 @@ const Index = (props) => {
           
           <li key={passage.id} style={passageLinkStyle}>
             <Link href="/passage/[id]" as={`/passage/${passage.id}`}>
-                <a onClick={()=>props.setPassage(passage.id)}><h3>{passage.reference_id}. {passage.title}</h3></a>
+                <a onClick={()=>setPassage(passage.id)}><h3>{passage.reference_id}. {passage.title}</h3></a>
             </Link>
                 <blockquote>{passage.subjects.label}</blockquote>
 

@@ -1,57 +1,53 @@
 // Actions
-import { 
-  GET_PASSAGES, LOADING_PASSAGES, REMOVE_PASSAGES,  
-  SET_CURRENT_PASSAGE
+import { GET_PROBLEMS, REMOVE_PROBLEMS, LOADING_PROBLEMS, SET_CURRENT_PROBLEM
+  
   } from '../actions/types'
 
 // Initial State
 const initialState= {
-  passages: [],
+  problems: [],
   currentPage: 0,
   totalPages: null,
   isScrolling: false,
   isLoading: false,
 
-  currentPassage: {}
-
+  currentProblem: {}
 }
 
 export default (state = initialState, action) => {
   switch(action.type) {
 
-    case GET_PASSAGES:
+    case GET_PROBLEMS:
       return {
         ...state,
-        passages: [...state.passages, ...action.payload.data],
+        problems: [...state.problems, ...action.payload.data],
         totalPages: action.payload.totalPages,
         isLoading: false,
         isScrolling: false,
         currentPage: state.currentPage + 1
       }
     
-    case REMOVE_PASSAGES:
+    case REMOVE_PROBLEMS:
       return {
         ...state,
-        passages: [],
+        problems: [],
         currentPage: 0,
 
       }
 
-    case SET_CURRENT_PASSAGE:
+    case SET_CURRENT_PROBLEM:
       return {
         ...state,
-        currentPassage: state.passages.filter(passage => passage.id === action.payload)[0]
+        currentProblem: state.problems.filter(problem => problem.id === action.payload)[0]
+
       }
 
-    
-   
-    case LOADING_PASSAGES:
+    case LOADING_PROBLEMS:
       return {
         ...state,
         isLoading: true,
         isScrolling: true
       }
-
 
     default:
       return state
