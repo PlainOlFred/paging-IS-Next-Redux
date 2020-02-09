@@ -1,14 +1,18 @@
 // Actions
-import { GET_PASSAGES, LOADING_PASSAGES, SET_CURRENT_PASSAGE, INCREMENT_PAGE, RESET_CURRENT_PAGE, REMOVE_PASSAGES,SCROLL_PAGE} from '../actions/types'
+import { 
+  GET_PASSAGES, LOADING_PASSAGES, REMOVE_PASSAGES,  
+  SET_CURRENT_PASSAGE
+  } from '../actions/types'
 
 // Initial State
 const initialState= {
   passages: [],
-  totalPages: null,
   currentPage: 0,
+  totalPages: null,
   isScrolling: false,
-  currentPassage_id: 0,
-  isLoading: false
+  isLoading: false,
+
+  currentPassage_id: 0
 }
 
 export default (state = initialState, action) => {
@@ -18,9 +22,11 @@ export default (state = initialState, action) => {
       // console.log('i am in the reducer')
       return {
         ...state,
-        passages: [...action.payload.data],
+        passages: [...state.passages, ...action.payload.data],
         totalPages: action.payload.totalPages,
-        isLoading: false
+        isLoading: false,
+        isScrolling: false,
+        currentPage: state.currentPage + 1
       }
     
     case REMOVE_PASSAGES:
@@ -31,38 +37,22 @@ export default (state = initialState, action) => {
 
       }
 
-    case SCROLL_PAGE:
-      return {
-        ...state,
-        passages: [...state.passages, ...action.payload],
-        currentPage: state.currentPage < state.totalPages ? state.currentPage + 1 : state.totalPages,
-        isLoading: false
-
-      }
     case SET_CURRENT_PASSAGE:
       return {
         ...state,
         currentPassage_id: action.payload
       }
 
-    case INCREMENT_PAGE:
-      return {
-        ...state,
-        currentPage: state.currentPage < state.totalPages ? state.currentPage + 1 : state.totalPages
-      }
-    case RESET_CURRENT_PAGE:
-      return { 
-        ...state,
-        currentPage: 0
-      }
-
+    
+   
     case LOADING_PASSAGES:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        isScrolling: true
       }
 
- 
+
     default:
       return state
   }

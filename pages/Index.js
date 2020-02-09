@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-
+import {throttle} from'lodash'
 
 // Components
 import PageLayout from "../components/PageLayout";
 import Link from 'next/link'
-
+import useEvent from '../components/useEvent'
 
 // Actions
-import { getPassages, scrollPage, setPassage, incrementPage, removePassages, setLoading } from "../redux/actions/passage.actions";
+import { getPassages, removePassages, setPassage } from "../redux/actions/passage.actions";
 
+// Element styling
 const passageListStyle = {
   listStyle: 'none'
 }
@@ -19,37 +20,39 @@ const passageLinkStyle = {
 }
 
 const Index = (props) => {
-  const {passages, currentPage, totalPages,  isScrolling, isLoading} = props.passage;
-  const {getPassages, removePassages, scrollPage, setLoading} = props
+  const {passages, isLoading} = props.passage;
+  const { currentPage, totalPages,  isScrolling} = props.passage;
+  const {getPassages, removePassages, setLoading} = props
 
   useEffect(() =>{
       const {currentPage} = props.passage
       getPassages(currentPage);
 
-    
       return () => {
         removePassages()
       }
   },[])
 
-// Add and Remove EventListener
-  useEffect(() => {
-    
-      const scrollPageListener = window.addEventListener('scroll', () => {
-        console.log('we scrollong')
-      })
-    
+//EventListener and Handler for scroll
+  const handleScrollPage = (e) => {
+      // maybe pass in a e ^here
+      if (isScrolling) return;
+      if(currentPage >= totalPages) return;
 
+      const bottomPassage = document.querySelector('ul.passageLinks > li:last-child');
+      if(bottomPassage) {
+        const bpOffest = bottomPassage.offsetTop + bottomPassage.clientHeight;
+        const scrollOffset = window.pageYOffset + window.innerHeight;
 
+        
+ 
+        if(scrollOffset > bpOffest + 30) {
+          getPassages(currentPage)
+        }
+      }
 
-    
-  },[])
-
-
-
-  const handleScrollPage = () => {
-    scrollPage(currentPage);
-  }
+    }
+  useEvent('scroll', throttle(handleScrollPage,500))
 
   
   return (
@@ -69,8 +72,8 @@ const Index = (props) => {
           </li>
         ))}
       </ul> : <ul></ul>} 
-      <a onClick={handleScrollPage}>Next Page</a>
-     {isLoading ?  <p>Laodaing.....</p> : <></>}
+      
+     {isLoading ?  <h4>Laodaing.....</h4> : <></>}
     </PageLayout>
 
   )
@@ -89,8 +92,7 @@ const mapDispatchToProps = dispatch => {
   return {
     getPassages: bindActionCreators(getPassages, dispatch),
     setPassage: bindActionCreators(setPassage, dispatch),
-    incrementPage: bindActionCreators(incrementPage, dispatch),
-    scrollPage: bindActionCreators(scrollPage, dispatch),
+    // scrollPage: bindActionCreators(scrollPage, dispatch),
     removePassages: bindActionCreators(removePassages, dispatch)
     
   }
