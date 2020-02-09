@@ -1,8 +1,9 @@
 import PageLayout from '../../components/PageLayout';
-import fetch from 'isomorphic-unfetch';
+import { connect } from 'react-redux';
 
 
-const Post = props => (
+
+const Passage = props => (
   
   <PageLayout>
     <h1>{props.passage.title}</h1>
@@ -15,20 +16,22 @@ const Post = props => (
   </PageLayout>
 );
 
-Post.getInitialProps = async function(context) {
-  const { id } = context.query;
-
-  const res = await fetch('http://34.216.186.56/api/passages');
-  const data = await res.json();
-  console.log(data.data.passages.filter(passage => passage.id === id)[0])
+Passage.getInitialProps = async ({reduxStore, query}) => {
+  console.log(query.id)
+  const state =reduxStore.getState();
+  console.log(state.passage.currentPassage)
 
   return {
-    passage: data.data.passages.filter(passage => passage.id === id)[0],
-    
-    
+    passage: state.passage.currentPassage
+   
   }
-  
-  
+   
 };
 
-export default Post;
+// State to Props
+// const mapStateToProps = (state) => ({
+//   passage: state.passage
+// })
+
+// export default connect()(Index);
+export default connect()(Passage);

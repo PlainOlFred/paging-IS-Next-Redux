@@ -92,7 +92,6 @@ const mapDispatchToProps = dispatch => {
   return {
     getPassages: bindActionCreators(getPassages, dispatch),
     setPassage: bindActionCreators(setPassage, dispatch),
-    // scrollPage: bindActionCreators(scrollPage, dispatch),
     removePassages: bindActionCreators(removePassages, dispatch)
     
   }

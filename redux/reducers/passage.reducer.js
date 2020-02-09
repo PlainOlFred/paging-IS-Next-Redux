@@ -12,7 +12,8 @@ const initialState= {
   isScrolling: false,
   isLoading: false,
 
-  currentPassage_id: 0
+  currentPassage: {}
+
 }
 
 export default (state = initialState, action) => {
@@ -40,7 +41,7 @@ export default (state = initialState, action) => {
     case SET_CURRENT_PASSAGE:
       return {
         ...state,
-        currentPassage_id: action.payload
+        currentPassage: state.passages.filter(passage => passage.id === action.payload)[0]
       }
 
     
